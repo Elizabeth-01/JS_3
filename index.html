@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Math Operation</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            background-color: #f4f4f4;
+        }
+
+        .calculator-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .calculator-container h2 {
+            margin-bottom: 20px;
+            color: #282c34;
+        }
+
+        .calculator-container button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #282c34;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-container">
+    <h2>Math Operation</h2>
+    <button onclick="performCalculation()">Calculate</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    const resultDiv = document.getElementById('result');
+
+    function getNumber(promptText, defaultValue) {
+        let number;
+        while (true) {
+            const input = prompt(promptText, defaultValue !== null ? defaultValue : "");
+            if (input === null) {
+                return null; // User clicked "Cancel"
+            }
+            const parsedNumber = parseFloat(input);
+            if (!isNaN(parsedNumber)) {
+                return parsedNumber;
+            } else {
+                alert("Please enter a valid number.");
+            }
+        }
+    }
+
+    function getOperation() {
+        while (true) {
+            const operation = prompt("Enter the desired operation (+, -, *, /):");
+            if (operation === '+' || operation === '-' || operation === '*' || operation === '/') {
+                return operation;
+            } else if (operation === null) {
+                return null; // User clicked "Cancel"
+            } else {
+                alert("Please enter one of the following operations: +, -, *, /");
+            }
+        }
+    }
+
+    function calculate(a, b, operation) {
+        switch (operation) {
+            case '+':
+                return a + b;
+            case '-':
+                return a - b;
+            case '*':
+                return a * b;
+            case '/':
+                if (b === 0) {
+                    return "Error! Division by zero.";
+                }
+                return a / b;
+            default:
+                return "Unknown operation";
+        }
+    }
+
+    function performCalculation() {
+        let num1 = getNumber("Enter the first number:");
+        if (num1 === null) {
+            resultDiv.textContent = "First number input cancelled.";
+            return;
+        }
+
+        let num2 = getNumber("Enter the second number:");
+        if (num2 === null) {
+            resultDiv.textContent = "Second number input cancelled.";
+            return;
+        }
+
+        const operation = getOperation();
+        if (operation !== null) {
+            const result = calculate(num1, num2, operation);
+            resultDiv.textContent = `Result: ${num1} ${operation} ${num2} = ${result}`;
+        } else {
+            resultDiv.textContent = "Operation input cancelled.";
+        }
+    }
+</script>
+
+</body>
+</html>
